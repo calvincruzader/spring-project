@@ -7,9 +7,8 @@ import org.hibernate.cfg.Configuration;
 import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
-import com.luv2code.hibernate.demo.entity.Student;
 
-public class GetInstructorDetailDemo {
+public class DeleteCoursesDemo {
 
 	public static void main(String[] args) {
 
@@ -25,28 +24,25 @@ public class GetInstructorDetailDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			
-			// start transaction 
 			session.beginTransaction();
 
-			// get instructor detail object 
-			int theId = 1;
+			// get course 
+			int theId = 10;
+			Course tempCourse = session.get(Course.class, theId);
 			
-			Instructor tempInstructor = session.get(Instructor.class, theId);
+			// delete a course
+			System.out.println("Deleting course: " + tempCourse);
 			
-			System.out.println("Instructor: " + tempInstructor);
-			
-			// get course for the instructor 
-			System.out.println("Courses: " + tempInstructor.getCourses());
-			
+			session.delete(tempCourse);
+
 			// commit transaction 
 			session.getTransaction().commit();
 			
-		} catch ( Exception exc) {
-			exc.printStackTrace();
-		}
+		} 
 		finally { 
-			session.close(); // solves the connection leak issue
+			
+			// add clean up code
+			session.close(); 
 			
 			factory.close();
 		}
