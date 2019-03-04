@@ -1,0 +1,24 @@
+Master notes for the entire class. (When done, parse through the notes to make it such that information is retained for you optimally.)
+
+entity class: Java class that is mapped to a database table
+
+map classes to tables and fields to columns
+
+sessionfactory 
+	- reads hibernate config files 
+	- creates sessions
+session
+	- wrapper around jdbc 
+	- saves/retrieves objects 
+	
+.configure("hibernate.cfg.xml") is the default
+
+CRUD
+
+so, you can update the objects by grabbing them from the database, updating them as Java objects, and then committing them back into the db via hibernate
+OR, you can update them via .createQuery() in the database itself
+
+
+db operation: CASCADE 
+deletes an entry and it's entries in foreign keys, DEPENDS ON USE CASE (don't want to delete course if a student is deleted)
+-----
