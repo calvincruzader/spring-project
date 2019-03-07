@@ -7,8 +7,10 @@ import org.hibernate.cfg.Configuration;
 import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
+import com.luv2code.hibernate.demo.entity.Review;
+import com.luv2code.hibernate.demo.entity.Student;
 
-public class CreateCoursesDemo {
+public class CreateCourseAndStudentsDemo {
 
 	public static void main(String[] args) {
 
@@ -17,6 +19,8 @@ public class CreateCoursesDemo {
 				addAnnotatedClass(Instructor.class).
 				addAnnotatedClass(InstructorDetail.class).
 				addAnnotatedClass(Course.class).
+				addAnnotatedClass(Review.class).
+				addAnnotatedClass(Student.class).
 				buildSessionFactory();
 		
 		
@@ -26,21 +30,25 @@ public class CreateCoursesDemo {
 		try {
 			session.beginTransaction();
 
-			// get instructor from db
-			int theId = 1;
-			Instructor tempInstructor = session.get(Instructor.class, theId);
+			// create a course 
+			Course tempCourse = new Course("Pacman - How to Score One Million Points");
+			System.out.println("Created new course: " + tempCourse);
 			
-			// create some courses 
-			Course tempCourse1 = new Course("Classical Piano - the Comprehensive Guide");
-			Course tempCourse2 = new Course("The Pinball Masterclass");
+			// create students
+			Student tempStudent1 = new Student("Mary", "Poppins", "mpoppins@nomail.com"); 
+			Student tempStudent2 = new Student("George", "Tolkien", "gtolly@nomail.com"); 
+
+
+			tempCourse.addStudent(tempStudent1);
+			tempCourse.addStudent(tempStudent2);
+
+			// save the students 
+			System.out.println("\nSaving the students...");
+			session.save(tempStudent1);
+			session.save(tempStudent2);
+			System.out.println("Saved stduents: " + tempCourse.getStudents());
 			
-			// add courses to instructor 
-			tempInstructor.add(tempCourse1);
-			tempInstructor.add(tempCourse2);
-			
-			// save courses 
-			session.save(tempCourse1);
-			session.save(tempCourse2);
+//			session.save(tempCourse);
 			
 			// commit transaction 
 			session.getTransaction().commit();
